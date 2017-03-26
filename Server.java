@@ -23,7 +23,7 @@ public class Server
 	private SimpleDateFormat sdf;
 
 	// For GUI
-	//private ServerGUI sg;
+	private ServerGUI sg;
 
 	// the port number to listen for connection
 	private int port;
@@ -38,6 +38,21 @@ public class Server
 	{
 		this.port = port;
 		sdf = new SimpleDateFormat("HH:mm:ss");
+		al = new ArrayList<ClientThread>();
+	}
+
+	/*
+	 * Server constructor that receives the port to listen for connection as parameter in GUI mode
+	 */
+	public Server(int port, ServerGUI sg)
+	{
+		// for GUI
+		this.sg = sg;
+		// the port
+		this.port = port;
+		// to display in hh:mm:ss
+		sdf = new SimpleDateFormat("HH:mm:ss");
+		// ArrayList for the Client list
 		al = new ArrayList<ClientThread>();
 	}
 
@@ -107,6 +122,16 @@ public class Server
 			display(msg);
 		}
 	}
+
+	/*
+	 * For the GUI to stop the server
+	 */
+	private void stop()
+	{
+		keepGoing = false;
+
+	}
+
 
 	/*
 	 * Display an event to the console
