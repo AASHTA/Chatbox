@@ -112,7 +112,7 @@ public class ServerGUI extends JFrame implements ActionListener, WindowListener
 		 * east, west, north, south and center. Each region can contain only one component and each component in
 		 * each region is identified by the corresponding constant NORTH, SOUTH, EAST, WEST and CENTER.
 		 */
-		add(north, BorderLayout.North);
+		add(north, BorderLayout.NORTH);
 
 		// the event and chatroom
 
@@ -134,7 +134,7 @@ public class ServerGUI extends JFrame implements ActionListener, WindowListener
 		event.setEditable(false);
 		appendEvent("Events log.\n");
 		center.add(new JScrollPane(event));
-		add(Center);
+		add(center);
 
 		// Needs to be informed when user click the close button on the frame
 		addWindowListener(this);
