@@ -20,6 +20,9 @@ public class Client
 	// to write on socket
 	private ObjectOutputStream sOutput;
 
+	// For GUI
+	private ClientGUI cg;
+
 	private Socket socket;
 
 	// the server, the port and the username
@@ -36,6 +39,18 @@ public class Client
 		this.server = server;
 		this.port = port;
 		this.username = username;
+	}
+
+	/*
+	 * Constructor call when used from a GUI
+	 */
+	Client(String server, int port, String username, ClientGUI cg)
+	{
+		this.server = server;
+		this.port = port;
+		this.username = username;
+		this.cg = cg;
+
 	}
 
 	/*
@@ -96,12 +111,16 @@ public class Client
 	}
 
 	/*
-	 * To send message to console
+	 * To send message to console or the GUI
 	 */
 
 	private void display(String msg)
 	{
-		System.out.println(msg);
+		if(cg == null)
+			System.out.println(msg);   // print in console mode
+		else
+			cg.append(msg + "\n");  // append to the ClientGUI JTextArea
+
 	}
 
 	/*
@@ -142,6 +161,10 @@ public class Client
 				socket.close();
 		}
 		catch(Exception e){}
+
+		// inform the GUI
+		if(cg != null)
+			cg.connectionFailed();
 	}
 
 	/*
@@ -235,7 +258,7 @@ public class Client
 	}
 
 	/*
-	 * A class that waits for the message from the server
+	 * A class that waits for the message from the server and append them to the JTextArea in case of GUI
 	 * And simply System.out.println() in console mode
 	 */
 	class ListenFromServer extends Thread
@@ -249,12 +272,22 @@ public class Client
 					String msg = (String)sInput.readObject();
 
 					// if console mode print the message and add back the promt
-					System.out.println(msg);
-					System.out.print("> ");
+					if(cg == null)
+					{
+						System.out.println(msg);
+					        System.out.print("> ");
+					}
+					else
+					{
+						cg.append(msg);
+					}
+
 				}
 				catch(IOException e)
 				{
 					display("Server has closed the connection: " + e);
+					if(cg != null)
+						cg.connectionFailed();
 					break;
 				}
 
