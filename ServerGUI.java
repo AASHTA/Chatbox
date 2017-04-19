@@ -203,7 +203,7 @@ public class ServerGUI extends JFrame implements ActionListener, WindowListener
 	 * Then we need to close the connection with the server to free the port
 	 */
 
-	public void WindowClosing(WindowEvent e)
+	public void windowClosing(WindowEvent e)
 	{
 		// if server exists
 		if(server != null)

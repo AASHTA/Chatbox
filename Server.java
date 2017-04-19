@@ -126,24 +126,29 @@ public class Server
 	/*
 	 * For the GUI to stop the server
 	 */
-	private void stop()
+	protected void stop()
 	{
 		keepGoing = false;
+		try
+		{
+			new Socket("localhost", port);
+		}
+		catch(Exception e){}
 
 	}
 
 
 	/*
-	 * Display an event to the console
+	 * Display an event to the console or GUI
 	 */
 	private void display(String msg)
 	{
 		String time = sdf.format(new Date()) + " " + msg + "\n";
-	 //       String m1 = time + " " + msg + "\n";
-	//	if(sg == null)
-		System.out.println(time);
-	//	else
-		//	sg.appendEvent(time + "\n");
+		if(sg == null)
+			System.out.println(time);
+		else
+			sg.appendEvent(time + "\n");
+		
 	}
 
 	/*
@@ -169,10 +174,10 @@ public class Server
 		String messageLf = time + " " + message + "\n";
 
 		// display the message on console or GUI
-		//if(sg = null)
-		System.out.println(messageLf);
-		//else
-		//	sg.appendRoom(messageLf); // append in the room window
+	        if(sg == null)
+			System.out.println(messageLf);  
+		else
+			sg.appendRoom(messageLf); // append in the room window
 
 
 		/* 
@@ -294,7 +299,7 @@ public class Server
 				sOutput = new ObjectOutputStream(socket.getOutputStream());
 				sInput = new ObjectInputStream(socket.getInputStream());
 
-				// read the use name
+				// read the user name
 				username = (String)sInput.readObject();
 				display(username + "just connected.");
 			}
