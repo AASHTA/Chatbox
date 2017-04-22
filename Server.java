@@ -224,7 +224,8 @@ public class Server
 	public static void main(String[] args)
 	{
 		// start the server on port 1500 until portNumber is specified
-		int portNumber = 1500;
+		// int portNumber = 1500;
+		int portNumber = 7648;
 
 		switch(args.length)
 		{

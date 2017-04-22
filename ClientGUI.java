@@ -9,7 +9,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+import java.net.URL;
 /*
  * The client with its GUI
  */
@@ -41,6 +41,10 @@ public class ClientGUI extends JFrame implements ActionListener
 
 	// the default port number
 	private int defaultPort;
+
+	// for image
+	final ImageIcon imageIcon = new ImageIcon("floral-border.jpg");
+
 
 	private String defaultHost;
 
@@ -79,20 +83,43 @@ public class ClientGUI extends JFrame implements ActionListener
 		northPanel.add(tf);
 		add(northPanel, BorderLayout.NORTH);
 
+
 		// The CenterPanel which is a Chat space
-		ta = new JTextArea("Welcome to the Chat room \n", 80, 80);
+		ta = new JTextArea("Welcome to the Chat room \n", 80, 80)
+		{
+			Image image = imageIcon.getImage();
+			
+			
+
+/*			Image grayImage = GrayFilter.createDisabledImage(image);
+			{
+				setOpaque(false);
+			}*/
+
+			public void paint(Graphics g)
+			{
+//				setOpaque(false);
+				g.drawImage(image, 0, 0, this);
+				super.paint(g);
+			}
+		};
 		JPanel centerPanel = new JPanel(new GridLayout(1,1));
+		centerPanel.setBorder(BorderFactory.createLineBorder(Color.PINK, 7));
 		centerPanel.add(new JScrollPane(ta));
 		ta.setEditable(false);
 		add(centerPanel, BorderLayout.CENTER);
 
 		// 3 Buttons
 		login = new JButton("Login");
+		login.setToolTipText(" Login to start the conversation with other user");
 		login.addActionListener(this);
+
 		logout = new JButton("Logout");
+		logout.setToolTipText("Logout if you want to end the conversation");
 		logout.addActionListener(this);
 		logout.setEnabled(false);   // you have to login before being able to logout
-		whoIsIn = new JButton("Who is is");
+		whoIsIn = new JButton("Who is in");
+		whoIsIn.setToolTipText("Find out how many users are currently connected to the server");
 		whoIsIn.addActionListener(this);
 		whoIsIn.setEnabled(false);  // you have to login before being able to who is in
 
